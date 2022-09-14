@@ -10,8 +10,8 @@ NC='\033[0m'
 upfrom=$(uptime -p)
 
 
-totalDiskSpace=$(df -h / | grep /dev/ | awk '{print $2}')
-rawFreeDiskSpace=$(df / | grep /dev/ | awk '{print $4/$2 *100}')
+totalDiskSpace=$(df -h /dev/mapper/vg00-var | grep /dev/ | awk '{print $2}')
+rawFreeDiskSpace=$(df /dev/mapper/vg00-var | grep /dev/ | awk '{print $4/$2 *100}')
 freeDiskSpace=${rawFreeDiskSpace%.*}
 
 
