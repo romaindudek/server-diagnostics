@@ -23,6 +23,10 @@ rawFreeMemory=$(free -m | grep Mem | awk '{print $4/$2 *100}')
 freeMemory=${rawFreeMemory%.*}
 freeWsap=${rawSwapFree%.*}
 
+ipAddr=$(hostname -I)
+procTemp=$(cat /sys/class/thermal/thermal_zone0/temp | awk '{ print $1/1000}')
+ramTemp=$(cat /sys/class/thermal/thermal_zone1/temp | awk '{ print $1/1000}')
 
 printf "${CYAN}Disk space :${NC} ${freeDiskSpace}%% free over ${totalDiskSpace}                ${CYAN}Up time :${NC}  ${upfrom}\n"
-printf "${CYAN}Ram :${NC} ${freeMemory}%% free over ${totalMemory}Mb, ${cachedRam}Mb in cache      ${CYAN}Swap :${NC} ${freeWsap}%% free over ${swapTotal}Mb"
+printf "${CYAN}RAM :${NC} ${freeMemory}%% free over ${totalMemory}Mb, ${cachedRam}Mb in cache      ${CYAN}Swap :${NC} ${freeWsap}%% free over ${swapTotal}Mb\n"
+printf "${CYAN}Proc temp :${NC} ${procTemp}°C      ${CYAN}RAM temp :${NC} ${ramTemp}°C       ${CYAN}Ip adrr :${NC} ${ipAddr}\n"
