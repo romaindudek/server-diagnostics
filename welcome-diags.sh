@@ -24,8 +24,8 @@ freeMemory=${rawFreeMemory%.*}
 freeSwap=${rawSwapFree%.*}
 
 ipAddr=$(hostname -I)
-procTemp=$(cat /sys/class/thermal/thermal_zone0/temp | awk '{ print $1/1000}')
-ramTemp=$(cat /sys/class/thermal/thermal_zone1/temp | awk '{ print $1/1000}')
+[ -f "/sys/class/thermal/thermal_zone0/temp" ] && procTemp=$(cat /sys/class/thermal/thermal_zone0/temp | awk '{ print $1/1000}')
+[ -f "/sys/class/thermal/thermal_zone1/temp" ] && ramTemp=$(cat /sys/class/thermal/thermal_zone1/temp | awk '{ print $1/1000}')
 
 [ ! -z "$freeDiskSpace" ] && printf "${CYAN}Disk space :${NC} ${freeDiskSpace}%% free over ${totalDiskSpace}              "
 [ ! -z "$upfrom" ] && printf "${CYAN}Up time :${NC}  ${upfrom}\n"
