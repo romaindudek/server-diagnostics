@@ -21,7 +21,7 @@ swapTotal=$(free -m | grep Swap | awk '{print $2}')
 rawSwapFree=$(free -m | grep Swap | awk '{print $4/$2 *100}')
 rawFreeMemory=$(free -m | grep Mem | awk '{print $4/$2 *100}')
 freeMemory=${rawFreeMemory%.*}
-[ ! -z "$rawSwapFree" ] && freeSwap=${rawSwapFree%.*}
+[[ "$rawSwapFree" =~ ([0-9])+.?\w ]] && freeSwap=${rawSwapFree%.*} || freeSwap=''
 
 ipAddr=$(hostname -I)
 [ -f "/sys/class/thermal/thermal_zone0/temp" ] && procTemp=$(cat /sys/class/thermal/thermal_zone0/temp | awk '{ print $1/1000}')
