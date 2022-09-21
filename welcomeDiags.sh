@@ -8,7 +8,11 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 PrintDiag () {
-    [ -n "$1" ] && printf '%s' "${CYAN}${0} :${NC} ${1}"
+    if [ "nl" = "$3" ]; then
+        [ -n "$2" ] && printf "${CYAN}%-10s : ${NC}%s\n" "${1}" "${2}"
+    else
+        [ -n "$2" ] && printf "${CYAN}%-10s : ${NC}%-40s" "${1}" "${2}"
+    fi
 }
 
 upfrom=$(uptime -p)
