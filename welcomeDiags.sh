@@ -7,6 +7,8 @@
 CYAN='\033[0;36m'
 NC='\033[0m'
 
+[ -n "$1" ] && diskLocation="$1" || diskLocation="/dev/"
+
 PrintDiag () {
     if [ "nl" = "$3" ]; then
         [ -n "$2" ] && printf "${CYAN}%-10s : ${NC}%s\n" "${1}" "${2}"
@@ -17,8 +19,8 @@ PrintDiag () {
 
 upfrom=$(uptime -p)
 
-totalDiskSpace=$(df -h / | grep /dev/ | awk '{print $2}')
-rawFreeDiskSpace=$(df / | grep /dev/ | awk '{print $4/$2 *100}')
+totalDiskSpace=$(df -h / | grep $diskLocation | awk '{print $2}')
+rawFreeDiskSpace=$(df / | grep $diskLocation | awk '{print $4/$2 *100}')
 freeDiskSpace=${rawFreeDiskSpace%.*}
 
 
