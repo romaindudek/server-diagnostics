@@ -11,7 +11,7 @@ PrintDiag () {
     if [ "nl" = "$3" ]; then
         [ -n "$2" ] && printf "${CYAN}%-10s : ${NC}%s\n" "${1}" "${2}"
     else
-        [ -n "$2" ] && printf "${CYAN}%-10s : ${NC}%-40s" "${1}" "${2}"
+        [ -n "$2" ] && printf "${CYAN}%-10s : ${NC}%s |" "${1}" "${2}"
     fi
 }
 
@@ -35,11 +35,14 @@ ipAddr=$(hostname -I)
 [ -f "/sys/class/thermal/thermal_zone0/temp" ] && procTemp=$( awk '{ print $1/1000}' < /sys/class/thermal/thermal_zone0/temp)
 [ -f "/sys/class/thermal/thermal_zone1/temp" ] && ramTemp=$( awk '{ print $1/1000}' < /sys/class/thermal/thermal_zone1/temp)
 
-PrintDiag "Disk space" "${freeDiskSpace}% free over ${totalDiskSpace}"
-PrintDiag "Up time" "${upfrom}" "nl"
-PrintDiag "RAM" "${freeMemory}% free over ${totalMemory}Mb, ${cachedRam}Mb in cache"
-PrintDiag "Swap" "${freeSwap}% free over ${swapTotal}Mb" "nl"
-PrintDiag "Proc temp" "${procTemp}°C"
-PrintDiag " RAM temp" "${ramTemp}°C" "nl"
-PrintDiag "Ip adrr" "${ipAddr}" "nl"
+PrintAllDiags () {
+    PrintDiag "Disk space" "${freeDiskSpace}% free over ${totalDiskSpace}"
+    PrintDiag "Up time" "${upfrom}" "nl"
+    PrintDiag "RAM" "${freeMemory}% free over ${totalMemory}Mb, ${cachedRam}Mb in cache"
+    PrintDiag "Swap" "${freeSwap}% free over ${swapTotal}Mb" "nl"
+    PrintDiag "Proc temp" "${procTemp}°C"
+    PrintDiag "RAM temp " "${ramTemp}°C" "nl"
+    PrintDiag "Ip adrr" "${ipAddr}" "nl"
+}
 
+PrintAllDiags | column -t -s "|"
