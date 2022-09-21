@@ -32,8 +32,8 @@ freeMemory=${rawFreeMemory%.*}
 [ "$rawSwapFree" != "inf" ] && freeSwap=${rawSwapFree%.*} || freeSwap='100'
 
 ipAddr=$(hostname -I)
-[ -f "/sys/class/thermal/thermal_zone0/temp" ] && procTemp=$(cat /sys/class/thermal/thermal_zone0/temp | awk '{ print $1/1000}')
-[ -f "/sys/class/thermal/thermal_zone1/temp" ] && ramTemp=$(cat /sys/class/thermal/thermal_zone1/temp | awk '{ print $1/1000}')
+[ -f "/sys/class/thermal/thermal_zone0/temp" ] && procTemp=$( awk '{ print $1/1000}' < /sys/class/thermal/thermal_zone0/temp)
+[ -f "/sys/class/thermal/thermal_zone1/temp" ] && ramTemp=$( awk '{ print $1/1000}' < /sys/class/thermal/thermal_zone1/temp)
 
 PrintDiag "Disk space" "${freeDiskSpace}% free over ${totalDiskSpace}"
 PrintDiag "Up time" "${upfrom}" "nl"
@@ -42,11 +42,4 @@ PrintDiag "Swap" "${freeSwap}% free over ${swapTotal}Mb" "nl"
 PrintDiag "Proc temp" "${procTemp}°C"
 PrintDiag " RAM temp" "${ramTemp}°C" "nl"
 PrintDiag "Ip adrr" "${ipAddr}" "nl"
-
-#[ -n "$freeDiskSpace" ] && printf "${CYAN}Disk space :${NC} ${freeDiskSpace}%% free over ${totalDiskSpace}              "
-# [ ! -z "$upfrom" ] && printf "${CYAN}Up time :${NC}  ${upfrom}\n"
-# [ ! -z "$freeMemory" ] && printf "${CYAN}RAM :${NC} ${freeMemory}%% free over ${totalMemory}Mb, ${cachedRam}Mb in cache      "
-# [ ! -z "$freeSwap" ] && printf "${CYAN}Swap :${NC} ${freeSwap}%% free over ${swapTotal}Mb\n"
-# [ ! -z "$procTemp" ] && printf "${CYAN}Proc temp :${NC} ${procTemp}°C      ${CYAN}RAM temp :${NC} ${ramTemp}°C       "
-# [ ! -z "$ipAddr" ] && printf "${CYAN}Ip adrr :${NC} ${ipAddr}\n"
 
